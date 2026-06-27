@@ -40,6 +40,7 @@
         <section class="relative">
             <img
                 {src}
+                loading = "eager"
                 alt=""
                 class="h-40 w-40 object-contain transform-all duration-600"
                 class:contrast-0={!correct}
