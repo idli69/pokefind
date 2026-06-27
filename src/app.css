@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+@theme {
+    --font-sans: "Londrina Solid", sans-serif;
+    --font-serif: "Press Start 2P", serif;
+}

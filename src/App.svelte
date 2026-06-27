@@ -1,46 +1,68 @@
 <script>
     import { onMount } from "svelte";
-    import { fetchRandomPokemon } from "./components/fetch";
+    import GuessBox from "./lib/GuessBox.svelte";
+    import { getRandomPokemon, isCorrect } from "./lib/api.js";
 
-    let src = null;
-    let pokemonName = "";
+    let pokemon = null;
+    let src = "";
+    let answer = "";
+    let correct = false;
+    let feedback = "";
     let loading = true;
 
-    async function loadPokemon() {
+    async function load() {
         loading = true;
-        const pokemon = await fetchRandomPokemon();
+        correct = false;
+        feedback = "";
 
+        pokemon = await getRandomPokemon();
         src = pokemon.sprites.other.dream_world.front_default;
-        pokemonName = pokemon.name;
 
+        answer = pokemon.name;
         loading = false;
-        return pokemon.name;
     }
+    const handleGuess = (guess) => {
+        correct = isCorrect(guess, answer);
+        feedback = correct ? "Correct" : "Wrong";
+    };
 
-    onMount(() => {
-        loadPokemon();
-    });
+    onMount(load);
 </script>
 
 <main
-    class="min-h-screen bg-slate-900 text-slate-200 flex flex-col justify-center items-center"
+    class="
+    flex flex-col min-h-screen items-center justify-center gap-6 bg-slate-900 text-slate-200
+    "
 >
     {#if loading}
-        <p>Image Loading...</p>
+        <p class="text-slate-400">Loading...</p>
     {:else}
-        <img {src} alt="Pokemon" class="w-40 aspect-square" />
-    {/if}
-    <input
-        class="outline m-8 text-center"
-        type="text"
-        placeholder="Enter Pokemon Name "
-    />
-    <h1>{pokemonName}</h1>
-    <button>Guess</button>
-</main>
+        <section class="relative">
+            <img
+                {src}
+                alt="Pokemon"
+                class="h-40 w-40 object-contain transform-all duration-600"
+                class:contrast-0={!correct}
+                class:contrast-100={correct}
+            />
+        </section>
 
-<style>
-    img {
-        filter: contrast(0%);
-    }
-</style>
+        <GuessBox onGuess={handleGuess} />
+        {#if feedback}
+            <p
+                class={`text-2xl font-medium ${correct ? "text-green-400" : "text-red-400"}`}
+            >
+                {feedback}
+            </p>
+        {/if}
+        {#if correct}
+            <button
+                class="rounded-lg bg-indigo-600 cursor-pointer
+                transition-colors duration-300 hover:bg-indigo-500 px-5 py-2"
+                onclick={load}
+            >
+                Next Pokemon
+            </button>
+        {/if}
+    {/if}
+</main>
