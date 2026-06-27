@@ -25,5 +25,4 @@
     >
         Guess
     </button>
-    <button class="cursor-pointer">Skip</button>
 </section>

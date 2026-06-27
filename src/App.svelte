@@ -40,7 +40,7 @@
         <section class="relative">
             <img
                 {src}
-                alt="Pokemon"
+                alt=""
                 class="h-40 w-40 object-contain transform-all duration-600"
                 class:contrast-0={!correct}
                 class:contrast-100={correct}
@@ -48,6 +48,11 @@
         </section>
 
         <GuessBox onGuess={handleGuess} />
+
+        <button class="cursor-pointer underline text-sky-700" onclick={load}>
+            Skip
+        </button>
+
         {#if feedback}
             <p
                 class={`text-2xl font-medium ${correct ? "text-green-400" : "text-red-400"}`}
