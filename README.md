@@ -1,10 +1,8 @@
 # PokeFind - "Who's that Pokemon"
----
 
 > A simple game i made with `Svelte 5` and `Tailwind CSS`.
 
 ## Tools used
----
 
 - Svelte 5
 - Tailwind CSS
